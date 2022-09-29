@@ -152,6 +152,8 @@ impl ImageUnitFormat {
     pub fn from_spv_def(is_sampled: u32, is_depth: u32, color_fmt: ImageFormat) -> Result<ImageUnitFormat> {
         let img_unit_fmt = match (is_sampled, is_depth, color_fmt) {
             (1, 0, _) => ImageUnitFormat::Sampled,
+            // `2` means no indication. Default to Sampled.
+            (1, 2, _) => ImageUnitFormat::Sampled,
             (1, 1, _) => ImageUnitFormat::Depth,
             (2, 0, color_fmt) => ImageUnitFormat::Color(color_fmt),
             _ => return Err(Error::UNSUPPORTED_IMG_CFG),
