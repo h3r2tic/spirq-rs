@@ -1493,7 +1493,12 @@ impl<'a> ReflectIntermediate<'a> {
                 self.populate_one_const(instr)?;
             } else if SPEC_CONST_RANGE.contains(&opcode) {
                 self.populate_one_spec_const(instr, cfg)?;
-            } else { break; }
+            } else {
+                // Note: Don't break. A rogue instruction like OpUndef can otherwise
+                // make us miss definitions.
+
+                //break;
+            }
             instrs.next();
         }
         Ok(())
